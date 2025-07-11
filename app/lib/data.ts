@@ -1,6 +1,7 @@
 // TEMPORARY DATA
+export const role = "admin";
 
-export let role = "admin";
+
 
 export const teachersData = [
   {

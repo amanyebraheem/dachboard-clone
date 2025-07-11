@@ -40,9 +40,9 @@ const columns = [
 ];
 
 const ClassListPage = () => {
-  const renderRow = (item: Class) => (
+  const renderRow = (item: Class, index: number) => (
     <tr
-      key={item.id}
+      key={index} // استخدم index كمفتاح لتفادي مشكلة التكرار
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
     >
       <td className="flex items-center gap-4 p-4">{item.name}</td>
