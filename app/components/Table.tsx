@@ -1,12 +1,16 @@
-const Table = ({
-  columns,
-  renderRow,
-  data,
-}: {
-  columns: { header: string; accessor: string; className?: string }[];
-  renderRow: (item: any, index: number) => React.ReactNode;
-  data: any[];
-}) => {
+type Column = {
+  header: string;
+  accessor: string;
+  className?: string;
+};
+
+type TableProps<T> = {
+  columns: Column[];
+  renderRow: (item: T, index: number) => React.ReactNode;
+  data: T[];
+};
+
+function Table<T>({ columns, renderRow, data }: TableProps<T>) {
   return (
     <table className="w-full mt-4">
       <thead>
@@ -21,6 +25,6 @@ const Table = ({
       <tbody>{data.map((item, index) => renderRow(item, index))}</tbody>
     </table>
   );
-};
+}
 
 export default Table;
