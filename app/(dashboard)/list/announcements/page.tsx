@@ -8,7 +8,7 @@ import Image from "next/image";
 type Announcement = {
   id: number;
   title: string;
-  class: string;ئ
+  class: string;
   date: string;
 };
 
