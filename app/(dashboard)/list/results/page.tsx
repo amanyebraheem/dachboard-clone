@@ -1,3 +1,5 @@
+
+
 import FormModal from "../../../components/FormModal";
 import Pagination from "../../../components/Pagination";
 import Table from "../../../components/Table";
@@ -20,39 +22,27 @@ type Result = {
 };
 
 const columns = [
-  {
-    header: "Subject Name",
-    accessor: "name",
-  },
-  {
-    header: "Student",
-    accessor: "student",
-  },
-  {
-    header: "Score",
-    accessor: "score",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Teacher",
-    accessor: "teacher",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Class",
-    accessor: "class",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Date",
-    accessor: "date",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Actions",
-    accessor: "action",
-  },
+  { header: "Subject Name", accessor: "name" },
+  { header: "Student", accessor: "student" },
+  { header: "Score", accessor: "score", className: "hidden md:table-cell" },
+  { header: "Teacher", accessor: "teacher", className: "hidden md:table-cell" },
+  { header: "Class", accessor: "class", className: "hidden md:table-cell" },
+  { header: "Date", accessor: "date", className: "hidden md:table-cell" },
+  { header: "Actions", accessor: "action" },
 ];
+
+
+const validResults: Result[] = resultsData.filter(
+  (item): item is Result =>
+    (item.type === "exam" || item.type === "assignment") &&
+    typeof item.id === "number" &&
+    typeof item.subject === "string" &&
+    typeof item.class === "string" &&
+    typeof item.teacher === "string" &&
+    typeof item.student === "string" &&
+    typeof item.date === "string" &&
+    typeof item.score === "number"
+);
 
 const ResultListPage = () => {
   const renderRow = (item: Result) => (
@@ -68,7 +58,7 @@ const ResultListPage = () => {
       <td className="hidden md:table-cell">{item.date}</td>
       <td>
         <div className="flex items-center gap-2">
-          {role === "admin" || role === "teacher" && (
+          {(role === "admin" || role === "teacher") && (
             <>
               <FormModal table="result" type="update" data={item} />
               <FormModal table="result" type="delete" id={item.id} />
@@ -88,17 +78,21 @@ const ResultListPage = () => {
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              <Image src="/filter.png" alt="" width={14} height={14} />
+              <Image src="/filter.png" alt="Filter" width={14} height={14} />
             </button>
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              <Image src="/sort.png" alt="" width={14} height={14} />
+              <Image src="/sort.png" alt="Sort" width={14} height={14} />
             </button>
-            {role === "admin" || role === "teacher" && <FormModal table="result" type="create" />}
+            {(role === "admin" || role === "teacher") && (
+              <FormModal table="result" type="create" />
+            )}
           </div>
         </div>
       </div>
+
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={resultsData} />
+      <Table columns={columns} renderRow={renderRow} data={validResults} />
+
       {/* PAGINATION */}
       <Pagination />
     </div>
